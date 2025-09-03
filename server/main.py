@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from typing import List
 import models, schemas, crud
 from database import engine, get_db
+import uvicorn
 
 # Initialize DB on startup
 models.Base.metadata.create_all(bind=engine)
@@ -39,5 +40,4 @@ def get_users(db: Session = Depends(get_db)):
     return crud.get_users(db)
 
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

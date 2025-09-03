@@ -2,6 +2,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from typing import Optional, List
 import models, schemas
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # User CRUD operations
 def get_user(db: Session, user_id: int) -> Optional[models.User]:
@@ -13,11 +16,15 @@ def get_user_by_email(db: Session, email: str) -> Optional[models.User]:
 def get_users(db: Session, skip: int = 0, limit: int = 100) -> List[models.User]:
     return db.query(models.User).offset(skip).limit(limit).all()
 
+def get_password_hash(password: str) -> str:
+    return pwd_context.hash(password)
+
 def create_user(db: Session, user: schemas.UserCreate) -> models.User:
-    # Temporarily store password as-is (no hashing yet)
+    # Hash the password before storing
+    hashed_pw = get_password_hash(user.password)
     db_user = models.User(
         email=user.email,
-        password_hash=user.password  # Store password directly for now
+        password_hash=hashed_pw
     )
     try:
         db.add(db_user)
