@@ -1,6 +1,6 @@
 # MindSync
 
-A health application with FastAPI backend and Vue.js frontend.
+A health application with FastAPI backend and Vue.js frontend. Aimed to track mental health through LLM-based sentiment analysis.
 
 ## Technologies Needed
 
