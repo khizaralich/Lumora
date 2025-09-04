@@ -14,3 +14,8 @@ class UserResponse(BaseModel):
     
     class Config:
         from_attributes = True
+
+# JWT Token response schema
+class Token(BaseModel):
+    access_token: str
+    token_type: str

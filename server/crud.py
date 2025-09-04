@@ -19,6 +19,9 @@ def get_users(db: Session, skip: int = 0, limit: int = 100) -> List[models.User]
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
+
 def create_user(db: Session, user: schemas.UserCreate) -> models.User:
     # Hash the password before storing
     hashed_pw = get_password_hash(user.password)
